@@ -49,4 +49,9 @@ public class DishService {
                 .setParameter("name", name)
                 .getSingleResult();
     }
+
+    public List<Dish> getAllDishes() {
+        String jpql = "SELECT d FROM Dish d";
+        return entityManager.createQuery(jpql, Dish.class).getResultList();
+    }
 }

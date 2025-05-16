@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.dishservice.model.Dish;
 import com.example.dishservice.service.DishService;
 
-@CrossOrigin("http://localhost:8080")
+@CrossOrigin(origins = {"http://localhost:8080", "http://localhost:8083"})
 @RestController
 @RequestMapping("/api/dishes")
 public class DishController {
@@ -30,6 +30,16 @@ public class DishController {
     public ResponseEntity<List<Dish>> getSellerDishes(@PathVariable Long sellerId) {
         try {
             List<Dish> dishes = dishService.getDishesBySeller(sellerId);
+            return ResponseEntity.ok(dishes);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null);
+        }
+    }
+    @GetMapping("/all")
+    public ResponseEntity<List<Dish>> getAllDishes() {
+        try {
+            List<Dish> dishes = dishService.getAllDishes();
             return ResponseEntity.ok(dishes);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
